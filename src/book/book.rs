@@ -650,6 +650,7 @@ And here is some \
     }
 
     #[test]
+    #[cfg(not(target_os = "windows"))]
     fn unable_to_create_missing_chapters() {
         let cfg = BuildConfig::default();
         let temp_dir = TempFileBuilder::new().prefix("book").tempdir().unwrap();
