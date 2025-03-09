@@ -646,5 +646,18 @@ And here is some \
 
         let got = load_book_from_disk(&summary, temp.path());
         assert!(got.is_err());
+        let error_message = got.err().unwrap().to_string();
+        let expected = if cfg!(windows) {
+            format!(
+                r#"Chapter file not found, {}\nested"#,
+                temp.path().to_str().unwrap()
+            )
+        } else {
+            format!(
+                r#"Unable to read "nested" ({}/nested)"#,
+                temp.path().to_str().unwrap()
+            )
+        };
+        assert_eq!(error_message, expected);
     }
 }
