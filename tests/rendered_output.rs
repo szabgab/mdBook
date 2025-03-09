@@ -369,6 +369,8 @@ fn failure_on_missing_file() {
 
     let got = MDBook::load_with_config(temp.path(), cfg);
     assert!(got.is_err());
+    let error_message = got.err().unwrap().to_string();
+    assert_eq!(error_message, "Chapter file not found, intro.md");
 }
 
 /// Ensure a missing file is created if `create-missing` is true.
