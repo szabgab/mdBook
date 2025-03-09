@@ -351,6 +351,7 @@ impl Display for Chapter {
 
 #[cfg(test)]
 mod tests {
+
     use super::*;
     use tempfile::{Builder as TempFileBuilder, TempDir};
 
@@ -646,5 +647,28 @@ And here is some \
 
         let got = load_book_from_disk(&summary, temp.path());
         assert!(got.is_err());
+    }
+
+    #[test]
+    fn unable_to_create_missing_chapters() {
+        let cfg = BuildConfig::default();
+        let temp_dir = TempFileBuilder::new().prefix("book").tempdir().unwrap();
+
+        let summary = "[a](./a.md)";
+        let summary_md = temp_dir.path().join("SUMMARY.md");
+        File::create(&summary_md)
+            .unwrap()
+            .write_all(summary.as_bytes())
+            .unwrap();
+
+        let mut perms = fs::metadata(&temp_dir).unwrap().permissions();
+        perms.set_readonly(true);
+        fs::set_permissions(&temp_dir, perms).unwrap();
+
+        let got = load_book(&temp_dir, &cfg);
+        assert!(got.is_err());
+        let error_message = got.err().unwrap().to_string();
+        let expeceted = "Unable to create missing chapters";
+        assert_eq!(error_message, expeceted);
     }
 }
