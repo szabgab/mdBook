@@ -27,6 +27,7 @@ window.search = window.search || {};
         searchresults_outer = document.getElementById('searchresults-outer'),
         searchresults_header = document.getElementById('searchresults-header'),
         searchicon = document.getElementById('search-toggle'),
+        helpicon = document.getElementById('show-help'),
         content = document.getElementById('content'),
 
         mark_exclude = [],
@@ -270,6 +271,9 @@ window.search = window.search || {};
         // Set up events
         searchicon.addEventListener('click', () => {
             searchIconClickHandler();
+        }, false);
+        helpicon.addEventListener('click', () => {
+            helpIconClickHandler();
         }, false);
         searchbar.addEventListener('keyup', () => {
             searchbarKeyUpHandler();

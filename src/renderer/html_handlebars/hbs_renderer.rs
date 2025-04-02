@@ -591,6 +591,7 @@ fn make_data(
     data.insert("print_enable".to_owned(), json!(html_config.print.enable));
     data.insert("fold_enable".to_owned(), json!(html_config.fold.enable));
     data.insert("fold_level".to_owned(), json!(html_config.fold.level));
+    data.insert("help_enabled".to_owned(), json!("true"));
 
     let search = html_config.search.clone();
     if cfg!(feature = "search") {
